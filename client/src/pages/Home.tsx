@@ -212,9 +212,38 @@ export default function Home() {
             <p className="text-sm text-foreground/80 leading-relaxed mb-4">
               NRMA operates a 4-node Nutanix HCI cluster at both Global Switch (GS) and Equinix (EQ), supporting 80 virtual machines across 511 vCPU and 1,578 GB of RAM. The HPE hardware, purchased in August 2021 under a 5-year finance deal, is now approaching end of life. VMware vSphere 7.0 — the hypervisor running these workloads — reached its End of General Support on October 2, 2025, with no further security patches or official support available. Nutanix software licenses expire in August 2026.
             </p>
-            <p className="text-sm text-foreground/80 leading-relaxed">
+            <p className="text-sm text-foreground/80 leading-relaxed mb-4">
               Five options have been evaluated, ranging from on-premises hardware refreshes to a full cloud migration via Nutanix Cloud Clusters (NC2) on AWS. The analysis accounts for current market conditions — specifically the 80–90% surge in server memory prices in Q1 2026 and significant supply chain disruption caused by US trade tariffs — which make a large capital commitment in the near term financially imprudent.
             </p>
+
+            {/* FY26 Budget Context */}
+            <div className="rounded-lg border border-[oklch(0.65_0.15_70)]/40 bg-[oklch(0.97_0.03_80)] p-4">
+              <div className="flex items-start gap-3">
+                <DollarSign size={16} className="text-[oklch(0.65_0.15_70)] flex-shrink-0 mt-0.5" />
+                <div>
+                  <h4 className="text-sm font-bold text-[oklch(0.18_0.10_258)] mb-1.5">FY26 Budget Position — A Complicating Factor</h4>
+                  <p className="text-xs text-foreground/75 leading-relaxed mb-2">
+                    NRMA Group Engineering holds an existing <strong>$400,000 CapEx budget for FY26</strong>, which closes at the end of June 2026. With the financial year ending in approximately 8 weeks, full utilisation of this budget against a major hardware refresh or cloud migration commitment is unlikely within the current cycle. A rollover into FY27 is probable for any unspent allocation.
+                  </p>
+                  <p className="text-xs text-foreground/75 leading-relaxed">
+                    <strong>CapEx vs. OpEx classification is TBC.</strong> The Nutanix NC2 on AWS option (Option 4) may qualify as OpEx under AASB 16 / IFRS 16 depending on the contract structure, which could affect whether it draws on the existing CapEx envelope or sits outside it entirely. Option 5 (~$155k) is most likely to be classified as OpEx (software licensing and maintenance), making it budget-neutral against the CapEx allocation and potentially the cleanest path through the FY26 year-end. Finance sign-off on classification is recommended before any commitment.
+                  </p>
+                </div>
+              </div>
+              <div className="grid grid-cols-3 gap-3 mt-4">
+                {[
+                  { label: "FY26 CapEx Budget", value: "$400k", note: "Existing allocation" },
+                  { label: "FY26 Close", value: "June 2026", note: "~8 weeks remaining" },
+                  { label: "Option 5 Classification", value: "OpEx (TBC)", note: "Likely outside CapEx envelope" },
+                ].map((s, i) => (
+                  <div key={i} className="bg-white rounded-md p-3 text-center">
+                    <div className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1 font-semibold">{s.label}</div>
+                    <div className="text-sm font-black cost-figure text-[oklch(0.65_0.15_70)]">{s.value}</div>
+                    <div className="text-[10px] text-muted-foreground">{s.note}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </motion.div>
         </div>
 
@@ -770,11 +799,30 @@ export default function Home() {
             </div>
           </motion.div>
 
+          {/* FY26 Budget Alignment Note */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="mb-6 rounded-lg border border-[oklch(0.65_0.15_70)]/40 bg-[oklch(0.97_0.03_80)] px-5 py-4"
+          >
+            <div className="flex items-start gap-3">
+              <DollarSign size={15} className="text-[oklch(0.65_0.15_70)] flex-shrink-0 mt-0.5" />
+              <div>
+                <h4 className="text-sm font-bold text-[oklch(0.18_0.10_258)] mb-1">FY26 Budget Alignment</h4>
+                <p className="text-xs text-foreground/75 leading-relaxed">
+                  The existing <strong>$400k FY26 CapEx budget closes at end of June 2026</strong>. With only ~8 weeks remaining in the financial year, deploying this budget against a hardware refresh or 3-year cloud commitment is not feasible within the current cycle — a rollover into FY27 is the likely outcome for any unspent CapEx. Option 5 (~$155k) is expected to be classified as <strong>OpEx</strong> (software licensing + maintenance), meaning it sits <em>outside</em> the CapEx envelope entirely and can be approved and executed immediately without competing for the FY26 allocation. <strong>CapEx vs. OpEx classification is TBC — Finance sign-off recommended.</strong> If the $400k does roll to FY27, it positions NRMA well to fund a hardware refresh (Option 2 at ~$1.3M with FY27 budget) or a properly scoped NC2 migration (Option 4) from a stable, supported AHV baseline.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+
           <div className="grid md:grid-cols-3 gap-4">
             {[
-              { title: "Lowest Financial Risk", body: "At ~$155k, this is 8–10× cheaper than any hardware refresh option and avoids locking in a 3-year cloud commitment during peak memory pricing.", icon: <DollarSign size={18} /> },
+              { title: "Lowest Financial Risk", body: "At ~$155k and likely OpEx-classified, this is 8–10× cheaper than any hardware refresh and avoids competing for the FY26 CapEx envelope with only 8 weeks remaining in the financial year.", icon: <DollarSign size={18} /> },
               { title: "Solves the Immediate Problem", body: "Migrating to AHV eliminates the VMware End of Support exposure now, removing the security and compliance risk without waiting for a hardware refresh.", icon: <ShieldAlert size={18} /> },
-              { title: "Preserves Optionality", body: "12 months of breathing room to properly evaluate NC2 on AWS (Option 4) or a hardware refresh (Option 2) with full market intelligence and operational readiness.", icon: <Clock size={18} /> },
+              { title: "Preserves Optionality", body: "12 months of breathing room to properly scope NC2 on AWS (Option 4) or a hardware refresh (Option 2), with the FY26 CapEx rollover potentially funding the FY27 decision.", icon: <Clock size={18} /> },
             ].map((item, i) => (
               <motion.div
                 key={i}
