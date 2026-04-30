@@ -1,8 +1,11 @@
 /* ============================================================
-   NRMA INFRASTRUCTURE ADVISORY — EXECUTIVE BROADSHEET THEME
-   Design: Editorial / Financial Times inspired
-   Palette: Off-white canvas, charcoal text, deep teal accent
-   Fonts: Fraunces (display serif) + Libre Franklin (body)
+   NRMA INFRASTRUCTURE ADVISORY — NRMA BRAND THEME
+   Design: NRMA Corporate — blue/white, clean, authoritative
+   Primary Blue: #003DA5 (NRMA brand blue)
+   Accent Blue: #0055CC
+   Background: #FFFFFF / #F5F7FA
+   Fonts: Inter (body) + Fraunces (display headings)
+   Source: NRMA Group Engineering
    ============================================================ */
 
 @import "tailwindcss";
@@ -47,58 +50,62 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  /* Custom brand tokens */
-  --color-teal: var(--teal);
-  --color-teal-light: var(--teal-light);
-  --color-teal-dark: var(--teal-dark);
-  --color-nrma-red: var(--nrma-red);
+  /* NRMA brand tokens */
+  --color-nrma-blue: var(--nrma-blue);
+  --color-nrma-blue-dark: var(--nrma-blue-dark);
+  --color-nrma-blue-light: var(--nrma-blue-light);
+  --color-nrma-blue-pale: var(--nrma-blue-pale);
   --color-amber-warn: var(--amber-warn);
   --color-emerald-ok: var(--emerald-ok);
+  --color-red-risk: var(--red-risk);
 }
 
 :root {
-  /* Brand colours */
-  --teal: oklch(0.38 0.09 196);
-  --teal-light: oklch(0.92 0.04 196);
-  --teal-dark: oklch(0.25 0.08 196);
-  --nrma-red: oklch(0.52 0.22 25);
+  /* NRMA Brand Blues */
+  --nrma-blue: oklch(0.38 0.18 258);        /* #003DA5 — primary NRMA blue */
+  --nrma-blue-dark: oklch(0.28 0.16 258);   /* #002878 — dark variant */
+  --nrma-blue-light: oklch(0.52 0.18 258);  /* #0055CC — lighter blue */
+  --nrma-blue-pale: oklch(0.94 0.04 258);   /* #E8EFFF — pale blue tint */
   --amber-warn: oklch(0.75 0.15 70);
-  --emerald-ok: oklch(0.65 0.15 155);
+  --emerald-ok: oklch(0.60 0.15 155);
+  --red-risk: oklch(0.52 0.22 25);
 
-  /* Semantic tokens */
+  /* Semantic tokens — light theme */
   --radius: 0.5rem;
-  --background: oklch(0.985 0.003 80);
-  --foreground: oklch(0.18 0.008 260);
+  --background: oklch(1 0 0);               /* pure white */
+  --foreground: oklch(0.18 0.02 258);       /* near-black with blue tint */
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.18 0.008 260);
+  --card-foreground: oklch(0.18 0.02 258);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0.008 260);
-  --primary: oklch(0.38 0.09 196);
-  --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.96 0.004 196);
-  --secondary-foreground: oklch(0.38 0.09 196);
-  --muted: oklch(0.95 0.003 80);
-  --muted-foreground: oklch(0.52 0.012 260);
-  --accent: oklch(0.92 0.04 196);
-  --accent-foreground: oklch(0.25 0.08 196);
+  --popover-foreground: oklch(0.18 0.02 258);
+  --primary: oklch(0.38 0.18 258);          /* NRMA blue */
+  --primary-foreground: oklch(1 0 0);       /* white */
+  --secondary: oklch(0.94 0.04 258);        /* pale blue */
+  --secondary-foreground: oklch(0.38 0.18 258);
+  --muted: oklch(0.96 0.01 258);
+  --muted-foreground: oklch(0.50 0.04 258);
+  --accent: oklch(0.94 0.04 258);
+  --accent-foreground: oklch(0.28 0.16 258);
   --destructive: oklch(0.52 0.22 25);
-  --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.88 0.006 80);
-  --input: oklch(0.88 0.006 80);
-  --ring: oklch(0.38 0.09 196);
-  --chart-1: oklch(0.38 0.09 196);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.88 0.03 258);
+  --input: oklch(0.88 0.03 258);
+  --ring: oklch(0.38 0.18 258);
+  --chart-1: oklch(0.38 0.18 258);
   --chart-2: oklch(0.52 0.22 25);
   --chart-3: oklch(0.75 0.15 70);
-  --chart-4: oklch(0.65 0.15 155);
-  --chart-5: oklch(0.55 0.08 260);
-  --sidebar: oklch(0.18 0.015 260);
-  --sidebar-foreground: oklch(0.92 0.005 80);
-  --sidebar-primary: oklch(0.38 0.09 196);
-  --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.25 0.02 260);
-  --sidebar-accent-foreground: oklch(0.92 0.005 80);
-  --sidebar-border: oklch(0.28 0.015 260);
-  --sidebar-ring: oklch(0.38 0.09 196);
+  --chart-4: oklch(0.60 0.15 155);
+  --chart-5: oklch(0.52 0.18 258);
+
+  /* Sidebar — NRMA dark navy */
+  --sidebar: oklch(0.22 0.10 258);          /* deep NRMA navy */
+  --sidebar-foreground: oklch(0.96 0.01 258);
+  --sidebar-primary: oklch(0.52 0.18 258);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.30 0.12 258);
+  --sidebar-accent-foreground: oklch(0.96 0.01 258);
+  --sidebar-border: oklch(0.30 0.10 258);
+  --sidebar-ring: oklch(0.52 0.18 258);
 }
 
 @layer base {
@@ -107,11 +114,11 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Libre Franklin', sans-serif;
+    font-family: 'Inter', sans-serif;
   }
   h1, h2, h3, h4 {
-    font-family: 'Fraunces', serif;
-    font-optical-sizing: auto;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
@@ -152,25 +159,10 @@
     }
   }
 
-  /* Section number decoration */
-  .section-number {
-    font-family: 'Fraunces', serif;
-    font-size: 6rem;
-    font-weight: 900;
-    line-height: 1;
-    color: oklch(0.88 0.006 80);
-    position: absolute;
-    top: -1.5rem;
-    left: -1rem;
-    z-index: 0;
-    pointer-events: none;
-    user-select: none;
-  }
-
-  /* Pull-quote / callout box */
-  .callout-teal {
-    border-left: 4px solid oklch(0.38 0.09 196);
-    background: oklch(0.96 0.02 196);
+  /* NRMA blue callout boxes */
+  .callout-blue {
+    border-left: 4px solid oklch(0.38 0.18 258);
+    background: oklch(0.94 0.04 258);
     padding: 1rem 1.25rem;
     border-radius: 0 0.5rem 0.5rem 0;
   }
@@ -190,22 +182,30 @@
   }
 
   .callout-emerald {
-    border-left: 4px solid oklch(0.65 0.15 155);
+    border-left: 4px solid oklch(0.60 0.15 155);
     background: oklch(0.97 0.03 155);
+    padding: 1rem 1.25rem;
+    border-radius: 0 0.5rem 0.5rem 0;
+  }
+
+  /* Keep teal alias pointing to blue for backward compat */
+  .callout-teal {
+    border-left: 4px solid oklch(0.38 0.18 258);
+    background: oklch(0.94 0.04 258);
     padding: 1rem 1.25rem;
     border-radius: 0 0.5rem 0.5rem 0;
   }
 
   /* Cost figure mono display */
   .cost-figure {
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
     font-weight: 600;
     letter-spacing: -0.02em;
   }
 
-  /* Recommended badge */
+  /* Status badges */
   .badge-recommended {
-    background: oklch(0.65 0.15 155);
+    background: oklch(0.60 0.15 155);
     color: white;
     font-size: 0.65rem;
     font-weight: 700;
@@ -238,22 +238,20 @@
   }
 }
 
-/* Smooth scrolling */
 html {
   scroll-behavior: smooth;
 }
 
-/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: oklch(0.95 0.003 80);
+  background: oklch(0.96 0.01 258);
 }
 ::-webkit-scrollbar-thumb {
-  background: oklch(0.75 0.04 196);
+  background: oklch(0.65 0.12 258);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: oklch(0.38 0.09 196);
+  background: oklch(0.38 0.18 258);
 }

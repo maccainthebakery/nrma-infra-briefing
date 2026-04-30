@@ -1,12 +1,15 @@
 // ============================================================
-// NRMA EXECUTIVE BROADSHEET — Sidebar Navigation
-// Dark sidebar with section tree, NRMA branding, filter pills
+// NRMA INFRASTRUCTURE ADVISORY — Sidebar Navigation
+// NRMA Brand Theme: Deep navy sidebar, blue accents, white text
+// Source: NRMA Group Engineering
 // ============================================================
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ChevronRight, FileText } from "lucide-react";
+import { Menu, X, ChevronRight } from "lucide-react";
 import { navItems, filterTags, type SectionTag } from "@/lib/briefingData";
+
+const NRMA_LOGO = "/manus-storage/nrma-logo_89638710.jpg";
 
 interface SidebarProps {
   activeSection: string;
@@ -30,30 +33,40 @@ export default function Sidebar({
 
   const SidebarContent = () => (
     <div className="flex flex-col h-full">
-      {/* Logo / Brand */}
-      <div className="px-6 pt-8 pb-6 border-b border-sidebar-border">
-        <div className="flex items-center gap-3 mb-1">
-          <div className="w-8 h-8 rounded bg-[oklch(0.52_0.22_25)] flex items-center justify-center flex-shrink-0">
-            <span className="text-white font-bold text-xs tracking-wider" style={{ fontFamily: 'Fraunces, serif' }}>N</span>
+      {/* NRMA Logo & Brand Header */}
+      <div className="px-5 pt-6 pb-5 border-b border-[oklch(0.30_0.10_258)]">
+        {/* NRMA Logo */}
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-12 h-12 rounded bg-white flex items-center justify-center flex-shrink-0 overflow-hidden p-1">
+            <img
+              src={NRMA_LOGO}
+              alt="NRMA Logo"
+              className="w-full h-full object-contain"
+            />
           </div>
           <div>
-            <div className="text-sidebar-foreground font-semibold text-sm tracking-wide" style={{ fontFamily: 'Fraunces, serif' }}>
+            <div className="text-white font-bold text-base tracking-wide leading-tight">
               NRMA
             </div>
-            <div className="text-[oklch(0.6_0.02_260)] text-[10px] uppercase tracking-widest">
-              Infrastructure Advisory
+            <div className="text-[oklch(0.75_0.08_258)] text-[10px] font-medium leading-tight">
+              Group Engineering
             </div>
           </div>
         </div>
-        <div className="mt-3 flex items-center gap-2 text-[oklch(0.55_0.04_196)] text-[11px]">
-          <FileText size={11} />
-          <span>April 2026 — Confidential</span>
+        {/* Document title */}
+        <div className="bg-[oklch(0.30_0.12_258)] rounded px-3 py-2">
+          <div className="text-[oklch(0.85_0.06_258)] text-[11px] font-semibold leading-tight">
+            Infrastructure Advisory
+          </div>
+          <div className="text-[oklch(0.60_0.06_258)] text-[10px] mt-0.5">
+            April 2026 · Confidential
+          </div>
         </div>
       </div>
 
       {/* Filter Pills */}
-      <div className="px-4 py-4 border-b border-sidebar-border">
-        <div className="text-[oklch(0.5_0.02_260)] text-[10px] uppercase tracking-widest mb-3 px-2">
+      <div className="px-4 py-4 border-b border-[oklch(0.30_0.10_258)]">
+        <div className="text-[oklch(0.55_0.06_258)] text-[10px] uppercase tracking-widest mb-2.5 font-semibold">
           Jump to topic
         </div>
         <div className="flex flex-wrap gap-1.5">
@@ -61,10 +74,10 @@ export default function Sidebar({
             <button
               key={tag.id}
               onClick={() => onFilterChange(tag.id)}
-              className={`text-[10px] px-2.5 py-1 rounded-full border transition-all duration-200 font-medium tracking-wide ${
+              className={`text-[10px] px-2.5 py-1 rounded-full border transition-all duration-200 font-semibold tracking-wide ${
                 activeFilter === tag.id
-                  ? "bg-[oklch(0.38_0.09_196)] border-[oklch(0.38_0.09_196)] text-white"
-                  : "bg-transparent border-[oklch(0.35_0.015_260)] text-[oklch(0.65_0.02_260)] hover:border-[oklch(0.38_0.09_196)] hover:text-[oklch(0.75_0.06_196)]"
+                  ? "bg-[oklch(0.52_0.18_258)] border-[oklch(0.52_0.18_258)] text-white"
+                  : "bg-transparent border-[oklch(0.38_0.10_258)] text-[oklch(0.65_0.06_258)] hover:border-[oklch(0.52_0.18_258)] hover:text-[oklch(0.80_0.08_258)]"
               }`}
             >
               {tag.label}
@@ -74,7 +87,7 @@ export default function Sidebar({
       </div>
 
       {/* Navigation Items */}
-      <nav className="flex-1 overflow-y-auto py-4 px-3">
+      <nav className="flex-1 overflow-y-auto py-3 px-3">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeFilter}
@@ -95,35 +108,34 @@ export default function Sidebar({
                     onSectionClick(item.id);
                     setMobileOpen(false);
                   }}
-                  className={`w-full text-left px-3 py-3 rounded-md mb-1 flex items-center gap-3 group transition-all duration-200 ${
+                  className={`w-full text-left px-3 py-2.5 rounded-md mb-0.5 flex items-center gap-3 group transition-all duration-200 ${
                     isActive
-                      ? "bg-[oklch(0.25_0.05_196)] border-l-2 border-[oklch(0.55_0.09_196)]"
-                      : "hover:bg-[oklch(0.22_0.01_260)]"
+                      ? "bg-[oklch(0.38_0.18_258)] border-l-2 border-[oklch(0.65_0.15_258)]"
+                      : "hover:bg-[oklch(0.28_0.10_258)]"
                   }`}
                 >
                   <span
                     className={`text-[10px] font-mono flex-shrink-0 transition-colors ${
                       isActive
-                        ? "text-[oklch(0.65_0.09_196)]"
-                        : "text-[oklch(0.45_0.02_260)] group-hover:text-[oklch(0.55_0.04_196)]"
+                        ? "text-[oklch(0.80_0.10_258)]"
+                        : "text-[oklch(0.50_0.06_258)] group-hover:text-[oklch(0.65_0.08_258)]"
                     }`}
                   >
                     {item.number}
                   </span>
                   <span
-                    className={`text-[13px] leading-tight transition-colors flex-1 ${
+                    className={`text-[13px] leading-tight transition-colors flex-1 font-medium ${
                       isActive
-                        ? "text-[oklch(0.92_0.04_196)] font-medium"
-                        : "text-[oklch(0.72_0.01_260)] group-hover:text-[oklch(0.88_0.01_260)]"
+                        ? "text-white"
+                        : "text-[oklch(0.75_0.04_258)] group-hover:text-[oklch(0.90_0.02_258)]"
                     }`}
-                    style={{ fontFamily: 'Libre Franklin, sans-serif' }}
                   >
                     {item.label}
                   </span>
                   {isActive && (
                     <ChevronRight
                       size={12}
-                      className="text-[oklch(0.55_0.09_196)] flex-shrink-0"
+                      className="text-[oklch(0.75_0.10_258)] flex-shrink-0"
                     />
                   )}
                 </motion.button>
@@ -134,11 +146,11 @@ export default function Sidebar({
       </nav>
 
       {/* Footer */}
-      <div className="px-6 py-4 border-t border-sidebar-border">
-        <p className="text-[oklch(0.4_0.01_260)] text-[10px] leading-relaxed">
-          Prepared by Manus AI · April 30, 2026
+      <div className="px-5 py-4 border-t border-[oklch(0.30_0.10_258)]">
+        <p className="text-[oklch(0.45_0.04_258)] text-[10px] leading-relaxed">
+          NRMA Group Engineering
           <br />
-          For internal executive use only.
+          Prepared April 30, 2026
         </p>
       </div>
     </div>
@@ -152,19 +164,19 @@ export default function Sidebar({
       </aside>
 
       {/* Mobile Header Bar */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-sidebar border-b border-sidebar-border px-4 py-3 flex items-center justify-between">
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-sidebar border-b border-[oklch(0.30_0.10_258)] px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-7 h-7 rounded bg-[oklch(0.52_0.22_25)] flex items-center justify-center">
-            <span className="text-white font-bold text-xs" style={{ fontFamily: 'Fraunces, serif' }}>N</span>
+          <div className="w-8 h-8 rounded bg-white flex items-center justify-center overflow-hidden p-0.5">
+            <img src={NRMA_LOGO} alt="NRMA" className="w-full h-full object-contain" />
           </div>
           <div>
-            <div className="text-sidebar-foreground font-semibold text-sm" style={{ fontFamily: 'Fraunces, serif' }}>NRMA</div>
-            <div className="text-[oklch(0.5_0.04_196)] text-[9px] uppercase tracking-widest">Infrastructure Advisory</div>
+            <div className="text-white font-bold text-sm">NRMA</div>
+            <div className="text-[oklch(0.60_0.06_258)] text-[9px] font-medium">Group Engineering</div>
           </div>
         </div>
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="text-sidebar-foreground p-1.5 rounded hover:bg-[oklch(0.25_0.01_260)] transition-colors"
+          className="text-white p-1.5 rounded hover:bg-[oklch(0.30_0.10_258)] transition-colors"
         >
           {mobileOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
@@ -191,7 +203,7 @@ export default function Sidebar({
               <div className="flex justify-end p-4">
                 <button
                   onClick={() => setMobileOpen(false)}
-                  className="text-sidebar-foreground p-1.5 rounded hover:bg-[oklch(0.25_0.01_260)]"
+                  className="text-white p-1.5 rounded hover:bg-[oklch(0.30_0.10_258)]"
                 >
                   <X size={20} />
                 </button>
