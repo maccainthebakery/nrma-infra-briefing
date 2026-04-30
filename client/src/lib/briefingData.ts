@@ -9,6 +9,7 @@ export type SectionTag =
   | "options"
   | "recommendation"
   | "market-context"
+  | "tech-horizon"
   | "next-steps";
 
 export interface NavItem {
@@ -24,8 +25,9 @@ export const navItems: NavItem[] = [
   { id: "options-comparison", label: "Options Comparison", number: "02", tag: "options" },
   { id: "option-4-deep-dive", label: "NC2 on AWS — Deep Dive", number: "03", tag: "options" },
   { id: "market-context", label: "Market Context", number: "04", tag: "market-context" },
-  { id: "recommendation", label: "Recommendation", number: "05", tag: "recommendation" },
-  { id: "next-steps", label: "Next Steps", number: "06", tag: "next-steps" },
+  { id: "tech-horizon", label: "Technology Horizon", number: "05", tag: "tech-horizon" },
+  { id: "recommendation", label: "Recommendation", number: "06", tag: "recommendation" },
+  { id: "next-steps", label: "Next Steps", number: "07", tag: "next-steps" },
 ];
 
 export const filterTags: { id: SectionTag | "all"; label: string }[] = [
@@ -35,6 +37,7 @@ export const filterTags: { id: SectionTag | "all"; label: string }[] = [
   { id: "options", label: "Options" },
   { id: "recommendation", label: "Recommendation" },
   { id: "market-context", label: "Market Context" },
+  { id: "tech-horizon", label: "Tech Horizon" },
   { id: "next-steps", label: "Next Steps" },
 ];
 
@@ -161,7 +164,7 @@ export const options: OptionData[] = [
     licenseCost3yr: "~$125,000 (1-year Nutanix)",
     additionalCost: "~$30,000 hardware maintenance",
     totalLow: "~$155,000",
-    effort: "1 FTE × 4–6 weeks (internal)",
+    effort: "1 FTE × 6–8 weeks (internal)",
     pros: [
       "Lowest immediate financial outlay by far",
       "Eliminates VMware licensing risk immediately",
@@ -173,7 +176,7 @@ export const options: OptionData[] = [
     cons: [
       "Relies on aging HPE hardware — elevated failure risk",
       "Only delays the hardware refresh/cloud decision by 12 months",
-      "Requires internal resource allocation (4–6 weeks FTE)",
+      "Requires internal resource allocation (6–8 weeks FTE)",
     ],
     isRecommended: true,
   },
@@ -266,6 +269,60 @@ export interface NextStep {
   priority: "immediate" | "short-term" | "planning";
 }
 
+export interface TechHorizonItem {
+  title: string;
+  stat: string;
+  statLabel: string;
+  description: string;
+  implication: string;
+  source: string;
+  sourceUrl: string;
+  type: "opportunity" | "trend" | "watch";
+}
+
+export const techHorizonItems: TechHorizonItem[] = [
+  {
+    title: "Google TurboQuant: 6× KV Cache Compression",
+    stat: "6×",
+    statLabel: "KV cache memory reduction, zero accuracy loss",
+    description: "Published at ICLR 2026 (March 24, 2026), Google's TurboQuant algorithm compresses the key-value cache of large language models by a factor of 6× with zero accuracy loss, and achieves up to 8× inference speedup on H100 GPUs. It requires no model retraining or fine-tuning. The algorithm works by combining PolarQuant (which converts vector coordinates into polar form, eliminating normalisation overhead) with QJL (a 1-bit residual error correction step). This directly reduces the HBM memory required to run frontier AI models at inference time.",
+    implication: "If TurboQuant-class compression becomes standard across AI inference infrastructure, the structural demand pressure on HBM — which is the primary driver of the current server memory price surge — could ease significantly within 12–18 months. This is a direct argument for deferring hardware procurement: the memory price you pay today may not reflect the memory you actually need in 2027.",
+    source: "Google Research Blog, March 2026",
+    sourceUrl: "https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/",
+    type: "opportunity",
+  },
+  {
+    title: "Small Language Models (SLMs): Enterprise AI Without the Memory Tax",
+    stat: "1B–7B",
+    statLabel: "Parameter range of leading enterprise SLMs in 2026",
+    description: "The AI landscape is bifurcating. While frontier LLMs (GPT-4o, Gemini Ultra, Claude 3.5) require massive HBM-equipped accelerators, a parallel generation of Small Language Models — Microsoft Phi-4, Google Gemma 3, Meta Llama 3.2 — deliver 80–90% of the capability at 5–10% of the memory footprint. SLMs in the 1B–7B parameter range can run inference on standard server DRAM (not HBM), making them viable on existing enterprise infrastructure. Enterprise deployments are achieving 200–400% ROI within the first year, with deployment cycles measured in weeks.",
+    implication: "NRMA's AI workloads — document processing, customer service automation, internal knowledge retrieval — are strong candidates for SLM deployment. This means the assumption that \"AI = massive GPU cluster = HBM demand\" may not apply to NRMA's specific workload profile. Waiting 12 months allows the SLM ecosystem to mature and gives the team time to validate which model tier is actually required.",
+    source: "OpenSourceForU / LinkedIn, April 2026",
+    sourceUrl: "https://www.opensourceforu.com/2026/04/the-quiet-revolution-how-small-language-models-are-redefining-enterprise-ai-strategy/",
+    type: "trend",
+  },
+  {
+    title: "Agentic AI & Token Compression: The Efficiency Paradox",
+    stat: "60–80%",
+    statLabel: "Token cost reduction achievable via compression in agent loops",
+    description: "The agentic AI economy — where AI models autonomously chain tools, APIs, and sub-agents to complete complex tasks — is driving a significant increase in token volume. However, this is being met by a parallel wave of token compression techniques. Context window compression, tool output summarisation, and KV cache eviction strategies are achieving 60–80% reductions in token costs in production agent loops. Techniques such as DOM sanitisation (85% HTML compression), structured output caching, and prompt distillation are becoming standard practice. The net effect is that AI traffic volume rises, but memory and compute cost per unit of useful work falls.",
+    implication: "For NRMA's infrastructure planning, this means AI-driven workload growth should not be modelled as a linear increase in raw compute and memory demand. The efficiency curve is steep. Infrastructure sized for today's AI token economics will likely be over-provisioned for 2027's workloads. This further supports deferring a large infrastructure commitment until the efficiency curve stabilises.",
+    source: "Towards Data Science / arXiv, April 2026",
+    sourceUrl: "https://towardsdatascience.com/agentic-ai-how-to-save-on-tokens/",
+    type: "trend",
+  },
+  {
+    title: "The Convergence Signal: When Efficiency Meets Demand",
+    stat: "2027",
+    statLabel: "Analyst consensus for HBM supply normalisation",
+    description: "The current memory price spike is the intersection of two curves: AI demand rising faster than HBM supply. But both curves are moving. On the demand side, TurboQuant-class compression, SLM adoption, and token efficiency techniques are reducing memory per inference unit. On the supply side, Samsung, SK Hynix, and Micron are all expanding HBM capacity — with meaningful new supply expected in H2 2026 and H1 2027. The structural tightness is real but time-bounded. Analyst consensus from TrendForce and Counterpoint Research points to supply normalisation in 2027.",
+    implication: "The 12-month bridge of Option 5 is not just a cost-deferral play — it is timed to land NRMA's procurement decision at the point where both the technology efficiency curve and the supply normalisation curve converge. This is the optimal procurement window.",
+    source: "TrendForce / Counterpoint Research, Jan–Feb 2026",
+    sourceUrl: "https://www.trendforce.com/insights/memory-wall",
+    type: "watch",
+  },
+];
+
 export const nextSteps: NextStep[] = [
   {
     number: "01",
@@ -280,7 +337,7 @@ export const nextSteps: NextStep[] = [
     title: "Allocate Internal FTE for ESXi → AHV Migration",
     timeframe: "Within 2 weeks",
     owner: "Infrastructure Team Lead",
-    description: "Identify and formally allocate one FTE for 4–6 weeks to plan and execute the in-place VMware ESXi to Nutanix AHV migration. This is treated as a BAU operational activity and eliminates the VMware licensing risk.",
+    description: "Identify and formally allocate one FTE for 6–8 weeks to plan and execute the in-place VMware ESXi to Nutanix AHV migration. This is treated as a BAU operational activity and eliminates the VMware licensing risk.",
     priority: "immediate",
   },
   {
