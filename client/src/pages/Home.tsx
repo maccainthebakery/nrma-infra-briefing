@@ -30,8 +30,8 @@ import {
   type SectionTag,
 } from "@/lib/briefingData";
 
-const HERO_BG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663478865359/bTwKWkJW2ep93FEn76Zb3r/hero-bg-cdQeH4UJ9mjdkcGub3UKWR.webp";
-const NRMA_LOGO = "/manus-storage/nrma-logo_89638710.jpg";
+const HERO_BG = "/hero-bg.jpg";
+const NRMA_LOGO = "/nrma-logo.png";
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState("executive-summary");

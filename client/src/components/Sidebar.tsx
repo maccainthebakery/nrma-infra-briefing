@@ -9,7 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronRight } from "lucide-react";
 import { navItems, filterTags, type SectionTag } from "@/lib/briefingData";
 
-const NRMA_LOGO = "/manus-storage/nrma-logo_89638710.jpg";
+const NRMA_LOGO = "/nrma-logo.png";
 
 interface SidebarProps {
   activeSection: string;
