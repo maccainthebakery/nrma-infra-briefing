@@ -1,6 +1,9 @@
 [build]
-  command = "pnpm install && pnpm run build"
+  command = "pnpm install && pnpm exec vite build"
   publish = "dist/public"
+
+[build.environment]
+  NODE_VERSION = "22"
 
 [[redirects]]
   from = "/*"
