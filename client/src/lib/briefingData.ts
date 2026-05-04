@@ -182,6 +182,94 @@ export const options: OptionData[] = [
   },
 ];
 
+// ── VM BREAKDOWN BY SITE ──────────────────────────────────────────────────
+export interface SiteVMData {
+  site: string;
+  siteCode: string;
+  totalVMs: number;
+  productionInfraVMs: number;
+  description: string;
+}
+
+export const siteVMBreakdown: SiteVMData[] = [
+  {
+    site: "Global Switch",
+    siteCode: "GS",
+    totalVMs: 42,
+    productionInfraVMs: 42,
+    description: "Primary production site. Hosts the majority of infrastructure-related production workloads including critical security appliances.",
+  },
+  {
+    site: "Equinix",
+    siteCode: "EQ",
+    totalVMs: 20,
+    productionInfraVMs: 20,
+    description: "Secondary production site. Hosts 20 infrastructure-related production VMs, including DR and secondary security services.",
+  },
+];
+
+// ── HIGH-SPEC SECURITY VM COST ANALYSIS ───────────────────────────────────
+export interface HighSpecVM {
+  name: string;
+  purpose: string;
+  vmCount: number;
+  cloudRackRatePerVMPerYear: number; // AUD
+  totalCloudCostPerYear: number; // AUD
+  totalCloud3yr: number; // AUD
+  onPremAdvantage: string;
+  notes: string;
+}
+
+export const highSpecVMs: HighSpecVM[] = [
+  {
+    name: "Cisco ISE (NAC)",
+    purpose: "Network Access Control — identity-based policy enforcement across wired, wireless, and VPN",
+    vmCount: 4,
+    cloudRackRatePerVMPerYear: 60000,
+    totalCloudCostPerYear: 240000,
+    totalCloud3yr: 720000,
+    onPremAdvantage: "Running ISE on-premises eliminates $240k/year in cloud rack costs. These VMs require high IOPS, low latency, and direct network fabric access — characteristics that are expensive to replicate in cloud bare-metal environments.",
+    notes: "Cisco ISE requires significant CPU/RAM (typically 16 vCPU / 64–128GB RAM per node) and is latency-sensitive. Cloud rack rate ~$60k AUD/year/VM at AWS bare metal pricing.",
+  },
+  {
+    name: "Fortinet FortiAnalyzer",
+    purpose: "Centralised log management, analytics, and reporting for Fortinet security fabric",
+    vmCount: 1,
+    cloudRackRatePerVMPerYear: 60000,
+    totalCloudCostPerYear: 60000,
+    totalCloud3yr: 180000,
+    onPremAdvantage: "High-throughput log ingestion requires sustained disk I/O. Cloud egress charges on log data volume add a compounding cost not captured in rack rate alone.",
+    notes: "FortiAnalyzer generates and processes large volumes of log data. Egress costs for log replication and SIEM forwarding from cloud can be substantial and are not included in the NC2 proposal.",
+  },
+  {
+    name: "CyberArk PAM",
+    purpose: "Privileged Access Management — vault, session isolation, credential rotation",
+    vmCount: 2,
+    cloudRackRatePerVMPerYear: 60000,
+    totalCloudCostPerYear: 120000,
+    totalCloud3yr: 360000,
+    onPremAdvantage: "CyberArk vaults are security-sensitive and often subject to data sovereignty requirements. Hosting in a shared cloud environment introduces additional compliance review requirements.",
+    notes: "CyberArk components (Vault, PVWA, CPM, PSM) have specific network isolation requirements. Running in cloud requires careful security group and VPC design to maintain compliance posture.",
+  },
+  {
+    name: "Backup Servers",
+    purpose: "Enterprise backup infrastructure — backup proxy, repository, and management servers",
+    vmCount: 2,
+    cloudRackRatePerVMPerYear: 60000,
+    totalCloudCostPerYear: 120000,
+    totalCloud3yr: 360000,
+    onPremAdvantage: "Backup workloads generate the highest egress volumes of any workload type. Cloud egress fees on backup data movement (restore testing, replication) are a major hidden cost not captured in the NC2 proposal.",
+    notes: "The NC2 proposal explicitly excludes enterprise backup redesign costs. Moving backup infrastructure to cloud requires a full architectural redesign and introduces ongoing egress costs for restore operations.",
+  },
+];
+
+export const highSpecVMSummary = {
+  totalVMs: 9,
+  totalCloudCostPerYear: 540000,
+  totalCloud3yr: 1620000,
+  keyInsight: "The 9 high-specification security and backup VMs alone would cost approximately $540,000 AUD/year at cloud rack rates — more than 3× the total cost of Option 5 — before accounting for egress, backup redesign, IP remediation, or third-party licensing costs excluded from the NC2 proposal.",
+};
+
 export interface RiskItem {
   title: string;
   severity: "high" | "medium" | "low";

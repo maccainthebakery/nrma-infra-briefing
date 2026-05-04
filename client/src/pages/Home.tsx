@@ -32,6 +32,9 @@ import {
   marketFactors,
   nextSteps,
   techHorizonItems,
+  siteVMBreakdown,
+  highSpecVMs,
+  highSpecVMSummary,
   type SectionTag,
 } from "@/lib/briefingData";
 
@@ -311,7 +314,8 @@ export default function Home() {
                     ["Hardware", "4-node HPE (Nutanix certified)", "4-node HPE (Nutanix certified)", "⚠ EOL / Year-by-year support"],
                     ["Hypervisor", "VMware ESXi 7.0", "VMware ESXi 7.0", "🔴 End of General Support Oct 2025"],
                     ["HCI Platform", "Nutanix AOS", "Nutanix AOS", "⚠ License expires Aug 2026"],
-                    ["VMs", "53 VMs (298 vCPU, 963 GB RAM)", "27 VMs (213 vCPU, 615 GB RAM)", "Active"],
+                    ["Production Infra VMs", "42 VMs", "20 VMs", "Active — 62 total"],
+                    ["Total VMs (all)", "53 VMs (298 vCPU, 963 GB RAM)", "27 VMs (213 vCPU, 615 GB RAM)", "Active"],
                     ["Storage (in-use)", "24 TiB", "31 TiB", "Active"],
                   ].map(([comp, gs, eq, status], i) => (
                     <tr key={i} className="border-b border-border/50 hover:bg-[oklch(0.96_0.02_258)] transition-colors">
@@ -323,6 +327,93 @@ export default function Home() {
                   ))}
                 </tbody>
               </table>
+            </div>
+          </motion.div>
+
+          {/* VM Breakdown by Site */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+            className="mt-6 grid sm:grid-cols-2 gap-4"
+          >
+            {siteVMBreakdown.map((site, i) => (
+              <div key={i} className="rounded-lg border border-[oklch(0.38_0.18_258)]/20 bg-white p-4 shadow-sm">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-8 h-8 rounded-md bg-[oklch(0.22_0.12_258)] flex items-center justify-center">
+                    <Server size={14} className="text-white" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-[oklch(0.18_0.10_258)]">{site.site}</div>
+                    <div className="text-[10px] text-muted-foreground uppercase tracking-widest">{site.siteCode} Site</div>
+                  </div>
+                </div>
+                <div className="flex items-baseline gap-1 mb-2">
+                  <span className="text-3xl font-black cost-figure text-[oklch(0.28_0.18_258)]">{site.productionInfraVMs}</span>
+                  <span className="text-xs text-muted-foreground">production infra VMs</span>
+                </div>
+                <p className="text-xs text-foreground/65 leading-relaxed">{site.description}</p>
+              </div>
+            ))}
+          </motion.div>
+
+          {/* High-Spec Security VM Cost Analysis */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.15 }}
+            className="mt-6 rounded-lg border border-border overflow-hidden"
+          >
+            <div className="bg-[oklch(0.22_0.12_258)] px-5 py-3">
+              <h4 className="text-xs font-bold uppercase tracking-widest text-white">High-Specification Security VMs — Cloud Cost Implications</h4>
+            </div>
+            <div className="bg-[oklch(0.97_0.02_258)] px-5 py-4 border-b border-border">
+              <div className="flex items-start gap-3">
+                <AlertTriangle size={15} className="text-amber-600 flex-shrink-0 mt-0.5" />
+                <p className="text-xs text-foreground/80 leading-relaxed">
+                  {highSpecVMSummary.keyInsight}
+                </p>
+              </div>
+            </div>
+            <div className="overflow-x-auto bg-white">
+              <table className="w-full text-xs">
+                <thead>
+                  <tr className="border-b border-border bg-[oklch(0.94_0.04_258)]">
+                    <th className="text-left px-4 py-2.5 text-[oklch(0.28_0.12_258)] font-bold">System</th>
+                    <th className="text-left px-4 py-2.5 text-[oklch(0.28_0.12_258)] font-bold">Purpose</th>
+                    <th className="text-center px-4 py-2.5 text-[oklch(0.28_0.12_258)] font-bold">VMs</th>
+                    <th className="text-right px-4 py-2.5 text-[oklch(0.28_0.12_258)] font-bold">Cloud Rate/VM/yr</th>
+                    <th className="text-right px-4 py-2.5 text-[oklch(0.28_0.12_258)] font-bold">Total/yr (AUD)</th>
+                    <th className="text-right px-4 py-2.5 text-[oklch(0.28_0.12_258)] font-bold">3-yr Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {highSpecVMs.map((vm, i) => (
+                    <tr key={i} className="border-b border-border/50 hover:bg-[oklch(0.96_0.02_258)] transition-colors">
+                      <td className="px-4 py-3 font-bold text-[oklch(0.22_0.12_258)]">{vm.name}</td>
+                      <td className="px-4 py-3 text-foreground/65 max-w-[180px]">{vm.purpose}</td>
+                      <td className="px-4 py-3 text-center font-mono font-bold text-[oklch(0.28_0.18_258)]">{vm.vmCount}</td>
+                      <td className="px-4 py-3 text-right font-mono">${vm.cloudRackRatePerVMPerYear.toLocaleString()}</td>
+                      <td className="px-4 py-3 text-right font-mono font-bold text-[oklch(0.55_0.18_25)]">${vm.totalCloudCostPerYear.toLocaleString()}</td>
+                      <td className="px-4 py-3 text-right font-mono font-bold text-[oklch(0.45_0.18_25)]">${vm.totalCloud3yr.toLocaleString()}</td>
+                    </tr>
+                  ))}
+                  <tr className="bg-[oklch(0.22_0.12_258)] text-white">
+                    <td className="px-4 py-3 font-bold" colSpan={2}>TOTAL (high-spec security VMs only)</td>
+                    <td className="px-4 py-3 text-center font-mono font-bold">{highSpecVMSummary.totalVMs}</td>
+                    <td className="px-4 py-3" />
+                    <td className="px-4 py-3 text-right font-mono font-bold">${highSpecVMSummary.totalCloudCostPerYear.toLocaleString()}</td>
+                    <td className="px-4 py-3 text-right font-mono font-bold">${highSpecVMSummary.totalCloud3yr.toLocaleString()}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div className="px-5 py-4 bg-[oklch(0.97_0.02_258)] border-t border-border">
+              <p className="text-[11px] text-muted-foreground leading-relaxed">
+                <strong>Note:</strong> Cloud rack rates are indicative based on AWS bare metal instance pricing at the specification required to run these workloads. Egress costs, backup redesign costs, IP remediation, and third-party licensing (e.g., Cisco ISE, CyberArk) are <em>not</em> included in these figures or in the NC2 proposal. The actual cloud cost for these workloads is likely to be materially higher.
+              </p>
             </div>
           </motion.div>
         </section>
